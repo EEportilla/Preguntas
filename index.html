@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Examen PRO - Ingeniería</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .option-btn:disabled { cursor: not-allowed; opacity: 0.7; }
+        .correct { background-color: #22c55e !important; color: white; border-color: #16a34a; }
+        .wrong { background-color: #ef4444 !important; color: white; border-color: #dc2626; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex items-center justify-center p-4">
+
+    <div id="app" class="max-w-2xl w-full bg-white rounded-2xl shadow-xl p-8">
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-2xl font-bold text-blue-600">Simulador 20/20</h1>
+            <div class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">
+                Pregunta <span id="current-idx">1</span> de <span id="total-qs">10</span>
+            </div>
+        </div>
+
+        <div id="start-screen" class="text-center">
+            <p class="mb-6 text-slate-600">Este examen genera 10 preguntas aleatorias de tu base de datos para asegurar que domines todo el contenido.</p>
+            <button onclick="startQuiz()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg transition">Comenzar Examen</button>
+        </div>
+
+        <div id="quiz-screen" class="hidden">
+            <div id="question-text" class="text-xl font-medium mb-6"></div>
+            <div id="options-container" class="grid gap-3"></div>
+            <button id="next-btn" onclick="nextQuestion()" class="mt-8 w-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-3 rounded-lg hidden">Siguiente Pregunta</button>
+        </div>
+
+        <div id="result-screen" class="hidden text-center">
+            <h2 class="text-3xl font-bold mb-2">¡Examen Terminado!</h2>
+            <p class="text-5xl font-black text-blue-600 my-6" id="final-score"></p>
+            <p id="feedback-msg" class="mb-8 text-slate-600"></p>
+            <button onclick="location.reload()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg">Intentar de nuevo</button>
+        </div>
+    </div>
+
+<script>
+    /* IMPORTANTE: Reemplaza este array con el JSON que te dé la IA.
+    */
+    const rawDatabase = [
+        {
+            pregunta: "¿Qué componente se encarga de gestionar los recursos del sistema?",
+            opciones: ["Memoria RAM", "Sistema Operativo", "Disco Duro", "Bus de datos"],
+            correcta: 1
+        }
+    ];
+
+    let quizData = [];
+    let currentIdx = 0;
+    let score = 0;
+
+    function startQuiz() {
+        document.getElementById('start-screen').classList.add('hidden');
+        document.getElementById('quiz-screen').classList.remove('hidden');
+        
+        // Aleatorizar y sacar 10 preguntas
+        quizData = [...rawDatabase].sort(() => Math.random() - 0.5).slice(0, 10);
+        document.getElementById('total-qs').innerText = quizData.length;
+        renderQuestion();
+    }
+
+    function renderQuestion() {
+        const q = quizData[currentIdx];
+        document.getElementById('current-idx').innerText = currentIdx + 1;
+        document.getElementById('question-text').innerText = q.pregunta;
+        document.getElementById('next-btn').classList.add('hidden');
+        
+        const container = document.getElementById('options-container');
+        container.innerHTML = '';
+
+        q.opciones.forEach((opt, i) => {
+            const btn = document.createElement('button');
+            btn.className = "option-btn w-full text-left p-4 border-2 border-slate-200 rounded-xl hover:border-blue-500 hover:bg-blue-50 transition font-medium";
+            btn.innerText = opt;
+            btn.onclick = () => checkAnswer(i, q.correcta, btn);
+            container.appendChild(btn);
+        });
+    }
+
+    function checkAnswer(selected, correct, btn) {
+        const buttons = document.querySelectorAll('.option-btn');
+        buttons.forEach(b => b.disabled = true);
+
+        if(selected === correct) {
+            btn.classList.add('correct');
+            score++;
+        } else {
+            btn.classList.add('wrong');
+            buttons[correct].classList.add('correct');
+        }
+        document.getElementById('next-btn').classList.remove('hidden');
+    }
+
+    function nextQuestion() {
+        currentIdx++;
+        if(currentIdx < quizData.length) {
+            renderQuestion();
+        } else {
+            showResults();
+        }
+    }
+
+    function showResults() {
+        document.getElementById('quiz-screen').classList.add('hidden');
+        const screen = document.getElementById('result-screen');
+        screen.classList.remove('hidden');
+        
+        const finalPuntaje = (score / quizData.length) * 20;
+        document.getElementById('final-score').innerText = finalPuntaje.toFixed(1) + " / 20";
+        
+        let msg = finalPuntaje >= 18 ? "¡Excelente! Estás listo para el 20." : "Sigue estudiando, te falta dominar algunos puntos.";
+        document.getElementById('feedback-msg').innerText = msg;
+    }
+</script>
+</body>
+</html>
