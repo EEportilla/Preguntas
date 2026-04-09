@@ -3,415 +3,344 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulador de Examen PRO - Ingeniería</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Apuntes de Redes de Computadores</title>
     <style>
-        .option-btn:disabled { cursor: not-allowed; opacity: 0.7; }
-        .correct { background-color: #22c55e !important; color: white; border-color: #16a34a; }
-        .wrong { background-color: #ef4444 !important; color: white; border-color: #dc2626; }
+        :root {
+            --primary-color: #0f4c75;
+            --secondary-color: #3282b8;
+            --bg-color: #f4f7f6;
+            --text-color: #333;
+            --card-bg: #ffffff;
+            --success-color: #28a745;
+            --error-color: #dc3545;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        header h1 { margin: 0; font-size: 2.5rem; }
+        header p { margin-top: 0.5rem; font-size: 1.2rem; opacity: 0.9; }
+
+        .container { max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
+
+        section {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-top: 4px solid var(--secondary-color);
+        }
+
+        h2 { color: var(--primary-color); border-bottom: 2px solid var(--bg-color); padding-bottom: 0.5rem; margin-top: 0; }
+        h3 { color: var(--secondary-color); margin-top: 1.5rem; }
+        ul { padding-left: 1.5rem; }
+        li { margin-bottom: 0.8rem; }
+        strong { color: var(--primary-color); }
+
+        .highlight {
+            background-color: #e8f4f8; padding: 0.2rem 0.4rem;
+            border-radius: 4px; font-family: monospace; color: #d63384;
+        }
+
+        /* Estilos del Quiz Dinámico */
+        #quiz-container {
+            background: #f8fbfa; border: 1px solid #dee2e6;
+            border-radius: 8px; padding: 2rem; margin-top: 1rem;
+        }
+        
+        #question-text { font-size: 1.2rem; font-weight: bold; margin-bottom: 1.5rem; color: var(--primary-color); }
+        
+        .option-btn {
+            display: block; width: 100%; text-align: left; padding: 12px;
+            margin-bottom: 10px; background-color: white; border: 2px solid #e2e8f0;
+            border-radius: 6px; cursor: pointer; font-size: 1rem; transition: all 0.2s;
+        }
+        
+        .option-btn:hover:not(:disabled) { background-color: #e2e8f0; }
+        .option-btn.correct { background-color: #d4edda; border-color: var(--success-color); color: #155724; }
+        .option-btn.incorrect { background-color: #f8d7da; border-color: var(--error-color); color: #721c24; }
+        
+        #explanation-box {
+            display: none; margin-top: 1.5rem; padding: 1rem; border-radius: 6px;
+            background-color: #e8f4f8; border-left: 4px solid var(--secondary-color);
+        }
+        
+        .quiz-controls { display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; }
+        
+        .action-btn {
+            background-color: var(--primary-color); color: white; border: none;
+            padding: 10px 20px; font-size: 1rem; border-radius: 4px; cursor: pointer; transition: 0.3s;
+        }
+        .action-btn:hover { background-color: var(--secondary-color); }
+        .action-btn:disabled { background-color: #ccc; cursor: not-allowed; }
+        
+        #quiz-progress { font-weight: bold; color: #6c757d; }
+        #final-score { text-align: center; display: none; }
+
+        footer { text-align: center; padding: 2rem; background-color: #2c3e50; color: white; margin-top: 2rem; }
+
+        @media (max-width: 600px) { section, #quiz-container { padding: 1.5rem; } }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen flex items-center justify-center p-4">
+<body>
 
-    <div id="app" class="max-w-2xl w-full bg-white rounded-2xl shadow-xl p-8">
-        <div class="flex justify-between items-center mb-8">
-            <h1 class="text-2xl font-bold text-blue-600">Simulador 20/20</h1>
-            <div class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-semibold">
-                Pregunta <span id="current-idx">1</span> de <span id="total-qs">10</span>
+    <header>
+        <h1>Redes de Computadores</h1>
+        <p>Fundamentos, Estándares y Protocolos</p>
+    </header>
+
+    <div class="container">
+        
+        <section id="fundamentos">
+            <h2>1. Las Redes Hoy y Fundamentos</h2>
+            <h3>Historia y Evolución de Internet</h3>
+            <ul>
+                <li><strong>Orígenes (1969):</strong> Inicia con ARPANET, una red distribuida del Departamento de Defensa de EE. UU., diseñada para resistir fallos mediante la conmutación de paquetes (rutas redundantes).</li>
+                <li><strong>Unificación (1983):</strong> Se adopta el protocolo TCP/IP, conectando redes diferentes y dando nacimiento al Internet moderno.</li>
+                <li><strong>Evolución (1991 - Web 2.0):</strong> Tim Berners-Lee inventa la World Wide Web (HTTP, HTML). Pasamos de la Web 1.0 (solo lectura) a la Web 2.0 (redes sociales y usuarios creadores de contenido).</li>
+                <li><strong>Conectividad Móvil y Nube:</strong> La evolución abarca desde 1G hasta el 4G y 5G (baja latencia, Internet de las cosas - IoT). Surge la computación en la nube dividida en modelos: SaaS (Software), PaaS (Plataforma) e IaaS (Infraestructura) y la arquitectura híbrida.</li>
+            </ul>
+
+            <h3>Tipos y Topologías de Redes</h3>
+            <h4>Alcance Geográfico:</h4>
+            <ul>
+                <li><strong>PAN:</strong> Área personal (Bluetooth, metros).</li>
+                <li><strong>LAN:</strong> Área local (edificio, Ethernet/Wi-Fi).</li>
+                <li><strong>MAN:</strong> Área metropolitana (ciudad, fibra óptica).</li>
+                <li><strong>WAN:</strong> Área amplia (países/global, Internet).</li>
+                <li><strong>SAN:</strong> Área de almacenamiento dedicada.</li>
+            </ul>
+            <h4>Topologías Físicas vs. Lógicas:</h4>
+            <ul>
+                <li><strong>Bus:</strong> (obsoleta, un cable central).</li>
+                <li><strong>Anillo.</strong></li>
+                <li><strong>Estrella:</strong> (todo pasa por un Switch central).</li>
+                <li><strong>Árbol:</strong> (jerárquica).</li>
+                <li><strong>Malla:</strong> (robusta, con rutas redundantes usada en Internet).</li>
+            </ul>
+        </section>
+
+        <section id="estandares">
+            <h2>2. Estándares IEEE y Redes Físicas / Inalámbricas</h2>
+            <ul>
+                <li><strong>IEEE 802.3 (Ethernet):</strong> Rige redes cableadas. Usa pares trenzados (UTP, FTP, STP) y conectores RJ-45 (8 pines). Normas de colores: T568A y T568B. 
+                    <ul><li>Equipos iguales (PC a PC) usan <strong>Cable Cruzado</strong>. Equipos distintos (PC a Switch) usan <strong>Cable Directo</strong>.</li></ul>
+                </li>
+                <li><strong>IEEE 802.11 (Wi-Fi):</strong> Redes inalámbricas. Espectros de 2.4 GHz (mayor alcance), 5 GHz (mayor velocidad) y 6 GHz. Usa encriptación WPA3.</li>
+                <li><strong>IEEE 802.15 (PAN):</strong> Bluetooth y Zigbee.</li>
+                <li><strong>IEEE 802.1Q (VLANs):</strong> Segmentación lógica de una red física.</li>
+            </ul>
+        </section>
+
+        <section id="identidad">
+            <h2>3. Identidad de Red, DHCP y Equipos de Interconexión</h2>
+            <ul>
+                <li><strong>IP, NAT y DHCP:</strong> Las IP son numéricas. NAT traduce IP privada a pública. DHCP asigna IPs dinámicas mediante el ciclo DORA (Discover, Offer, Request, Acknowledge).</li>
+                <li><strong>DNS:</strong> Traduce nombres de dominio a IP.</li>
+                <li><strong>Equipos:</strong> Módem (análogo a digital), Router (conecta redes LAN-WAN), Switch (conecta equipos en la misma LAN usando MAC), Hub (obsoleto, genera colisiones).</li>
+                <li><strong>Comandos:</strong> <span class="highlight">ipconfig</span>, <span class="highlight">ping</span>, <span class="highlight">tracert</span>, <span class="highlight">netstat</span>, <span class="highlight">arp</span>.</li>
+            </ul>
+        </section>
+
+        <section id="protocolos">
+            <h2>4. Protocolos y Modelos: OSI vs TCP/IP</h2>
+            <ul>
+                <li><strong>OSI (7 Capas):</strong> 7.Aplicación, 6.Presentación, 5.Sesión, 4.Transporte, 3.Red, 2.Enlace de Datos, 1.Física.</li>
+                <li><strong>TCP/IP (4 Capas):</strong> Aplicación, Transporte, Internet, Acceso a Red.</li>
+            </ul>
+        </section>
+
+        <section id="quiz-section">
+            <h2>5. Simulador de Examen (40 Preguntas)</h2>
+            <p>Lee cuidadosamente. Al responder, el sistema te explicará el porqué de la respuesta correcta.</p>
+
+            <div id="quiz-container">
+                <div id="quiz-progress">Pregunta 1 de 40</div>
+                <div id="question-text">Cargando pregunta...</div>
+                <div id="options-container"></div>
+                
+                <div id="explanation-box">
+                    <strong>Explicación:</strong> <span id="explanation-text"></span>
+                </div>
+
+                <div class="quiz-controls">
+                    <span id="score-display">Puntaje: 0</span>
+                    <button id="next-btn" class="action-btn" disabled>Siguiente Pregunta</button>
+                </div>
             </div>
-        </div>
 
-        <div id="start-screen" class="text-center">
-            <p class="mb-6 text-slate-600">Este examen genera 10 preguntas aleatorias de tu base de datos para asegurar que domines todo el contenido.</p>
-            <button onclick="startQuiz()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg transition">Comenzar Examen</button>
-        </div>
+            <div id="final-score">
+                <h2>¡Quiz Terminado!</h2>
+                <h3 id="final-score-text"></h3>
+                <button class="action-btn" onclick="location.reload()">Reiniciar Quiz</button>
+            </div>
+        </section>
 
-        <div id="quiz-screen" class="hidden">
-            <div id="question-text" class="text-xl font-medium mb-6"></div>
-            <div id="options-container" class="grid gap-3"></div>
-            <button id="next-btn" onclick="nextQuestion()" class="mt-8 w-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-3 rounded-lg hidden">Siguiente Pregunta</button>
-        </div>
-
-        <div id="result-screen" class="hidden text-center">
-            <h2 class="text-3xl font-bold mb-2">¡Examen Terminado!</h2>
-            <p class="text-5xl font-black text-blue-600 my-6" id="final-score"></p>
-            <p id="feedback-msg" class="mb-8 text-slate-600"></p>
-            <button onclick="location.reload()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg">Intentar de nuevo</button>
-        </div>
     </div>
 
-<script>
-    /* IMPORTANTE: Reemplaza este array con el JSON que te dé la IA.
-    */
-    const rawDatabase = [
-  {
-    "pregunta": "¿Qué hito técnico marcó el nacimiento oficial del Internet moderno el 1 de enero de 1983?",
-    "opciones": [
-      "El primer mensaje en ARPANET",
-      "La migración masiva de NCP a TCP/IP",
-      "La creación de la World Wide Web",
-      "El lanzamiento del navegador Mosaic"
-    ],
-    "respuesta_correcta": 1
-  },
-  {
-    "pregunta": "¿Qué ventaja principal ofrece la conmutación de paquetes sobre la de circuitos?",
-    "opciones": [
-      "Garantiza un ancho de banda dedicado",
-      "Evita el uso de routers",
-      "Rutas redundantes y resistencia ante fallos",
-      "Es exclusiva de la telefonía analógica"
-    ],
-    "respuesta_correcta": 2
-  },
-  {
-    "pregunta": "En el modelo jerárquico de diseño de red, ¿cuál es la función de la Capa de Acceso?",
-    "opciones": [
-      "Enrutamiento entre VLANs",
-      "Conexión directa de usuarios finales y Port Security",
-      "Backup masivo de datos",
-      "Backbone de alta velocidad"
-    ],
-    "respuesta_correcta": 1
-  },
-  {
-    "pregunta": "¿Qué estándar de la IEEE define las redes locales cableadas (Ethernet)?",
-    "opciones": [
-      "IEEE 802.11",
-      "IEEE 802.15",
-      "IEEE 802.3",
-      "IEEE 802.16"
-    ],
-    "respuesta_correcta": 2
-  },
-  {
-    "pregunta": "¿Cuál es la función del trenzado en los cables UTP?",
-    "opciones": [
-      "Aumentar la resistencia mecánica del cable",
-      "Permitir mayor voltaje para PoE",
-      "Mitigar el efecto de diafonía o Crosstalk",
-      "Facilitar el proceso de crimpado"
-    ],
-    "respuesta_correcta": 2
-  },
-  {
-    "pregunta": "¿Qué pines se utilizan para la transmisión y recepción de datos en 10/100Base-T?",
-    "opciones": [
-      "1, 2, 4 y 5",
-      "1, 2, 3 y 6",
-      "4, 5, 7 y 8",
-      "Todos los 8 pines"
-    ],
-    "respuesta_correcta": 1
-  },
-  {
-    "pregunta": "¿Qué norma TIA/EIA-568 comienza con el par Blanco-Naranja / Naranja?",
-    "opciones": [
-      "T568A",
-      "T568B",
-      "IEEE 802.3",
-      "ISO 9001"
-    ],
-    "respuesta_correcta": 1
-  },
-  {
-    "pregunta": "¿Cuál es el propósito del mecanismo NAT en un router?",
-    "opciones": [
-      "Asignar nombres de dominio a las IPs",
-      "Convertir señales analógicas en digitales",
-      "Permitir que IPs privadas salgan a Internet usando una IP Pública",
-      "Cifrar el tráfico de la red local"
-    ],
-    "respuesta_correcta": 2
-  },
-  {
-    "pregunta": "En el modelo OSI, ¿qué capa se encarga de la compresión y encriptación de datos?",
-    "opciones": [
-      "Capa 7: Aplicación",
-      "Capa 6: Presentación",
-      "Capa 5: Sesión",
-      "Capa 4: Transporte"
-    ],
-    "respuesta_correcta": 1
-  },
-  {
-    "pregunta": "¿Cómo se denomina la unidad de datos (PDU) en la Capa 2 (Enlace de Datos)?",
-    "opciones": [
-      "Bit",
-      "Paquete",
-      "Trama (Frame)",
-      "Segmento"
-    ],
-    "respuesta_correcta": 2
-  },
-  {
-    "pregunta": "¿Cuál es la frecuencia que ofrece mayor velocidad pero tiene menor alcance y penetración?",
-    "opciones": [
-      "2.4 GHz",
-      "5 GHz",
-      "Bluetooth",
-      "GSM"
-    ],
-    "respuesta_correcta": 1
-  },
-  {
-    "pregunta": "¿Qué comando de Windows se utiliza para ver la ruta y saltos hacia un host de destino?",
-    "opciones": [
-      "ping",
-      "ipconfig",
-      "tracert",
-      "netstat"
-    ],
-    "respuesta_correcta": 2
-  },
-  {
-    "pregunta": "En el proceso DHCP, ¿qué significa la letra 'O' en el ciclo DORA?",
-    "opciones": [
-      "Open",
-      "Offer (Oferta de IP)",
-      "Object",
-      "Output"
-    ],
-    "respuesta_correcta": 1
-  },
-  {
-    "pregunta": "¿Qué tipo de red conecta dispositivos en un área reducida como un edificio o campus?",
-    "opciones": [
-      "PAN",
-      "LAN",
-      "MAN",
-      "WAN"
-    ],
-    "respuesta_correcta": 1
-  },
-  {
-    "pregunta": "¿Qué componente de la dirección IPv4 define qué parte pertenece a la red y cuál al host?",
-    "opciones": [
-      "La dirección MAC",
-      "El Gateway",
-      "La Máscara de Subred",
-      "El servidor DNS"
-    ],
-    "respuesta_correcta": 2
-  },
-  {
-    "pregunta": "¿Qué estándar Wi-Fi introdujo MIMO y opera en ambas bandas (2.4 y 5 GHz)?",
-    "opciones": [
-      "802.11b",
-      "802.11g",
-      "802.11n (Wi-Fi 4)",
-      "802.11a"
-    ],
-    "respuesta_correcta": 2
-  },
-  {
-    "pregunta": "¿Cuál es la función del protocolo ARP?",
-    "opciones": [
-      "Traducir nombres de dominio a IP",
-      "Traducir direcciones IP a direcciones MAC",
-      "Asignar IPs automáticamente",
-      "Controlar la congestión de red"
-    ],
-    "respuesta_correcta": 1
-  },
-  {
-    "pregunta": "En el modelo TCP/IP, ¿qué capa agrupa las funciones de Aplicación, Presentación y Sesión de OSI?",
-    "opciones": [
-      "Capa de Internet",
-      "Capa de Transporte",
-      "Capa de Aplicación",
-      "Capa de Acceso a Red"
-    ],
-    "respuesta_correcta": 2
-  },
-  {
-    "pregunta": "¿Qué tecnología permite segmentar lógicamente una red física única?",
-    "opciones": [
-      "DHCP",
-      "VLAN",
-      "DNS",
-      "NAT"
-    ],
-    "respuesta_correcta": 1
-  },
-  {
-    "pregunta": "¿Cuál es la latencia objetivo de la tecnología 5G para aplicaciones críticas?",
-    "opciones": [
-      "100 ms",
-      "< 1 ms",
-      "10 ms",
-      "50 ms"
-    ],
-    "respuesta_correcta": 1
-  },
-  {
-    "pregunta": "¿Qué dispositivo de red opera exclusivamente en la Capa 2 del modelo OSI?",
-    "opciones": [
-      "Router",
-      "Repetidor",
-      "Switch",
-      "Hub"
-    ],
-    "respuesta_correcta": 2
-  },
-  {
-    "pregunta": "¿Qué tipo de cable se debe usar para conectar un Switch con otro Switch (puertos normales)?",
-    "opciones": [
-      "Cable Directo",
-      "Cable Cruzado",
-      "Cable Coaxial",
-      "Fibra Monomodo"
-    ],
-    "respuesta_correcta": 1
-  },
-  {
-    "pregunta": "¿Qué servicio traduce 'google.com' en la IP '142.250.190.46'?",
-    "opciones": [
-      "DHCP",
-      "DNS",
-      "HTTP",
-      "FTP"
-    ],
-    "respuesta_correcta": 1
-  },
-  {
-    "pregunta": "¿Qué memoria del switch almacena la configuración activa (running-config) y la tabla MAC?",
-    "opciones": [
-      "ROM",
-      "NVRAM",
-      "RAM/DRAM",
-      "Flash"
-    ],
-    "respuesta_correcta": 2
-  },
-  {
-    "pregunta": "¿Cuál es la longitud máxima permitida para un enlace de cable UTP sin repetidores?",
-    "opciones": [
-      "50 metros",
-      "100 metros",
-      "185 metros",
-      "500 metros"
-    ],
-    "respuesta_correcta": 1
-  },
-  {
-    "pregunta": "¿Qué modo de conmutación lee todo el frame y verifica errores (CRC) antes de enviarlo?",
-    "opciones": [
-      "Cut-Through",
-      "Store-and-Forward",
-      "Broadcast",
-      "Fast-Forwarding"
-    ],
-    "respuesta_correcta": 1
-  },
-  {
-    "pregunta": "¿Qué característica de seguridad inalámbrica es la más robusta actualmente?",
-    "opciones": [
-      "WEP",
-      "WPA2",
-      "WPA3",
-      "SSID Oculto"
-    ],
-    "respuesta_correcta": 2
-  },
-  {
-    "pregunta": "¿Qué protocolo se utiliza para el transporte rápido de datos sin garantía de entrega (streaming)?",
-    "opciones": [
-      "TCP",
-      "UDP",
-      "IP",
-      "ICMP"
-    ],
-    "respuesta_correcta": 1
-  },
-  {
-    "pregunta": "¿Qué topología física permite que si el nodo central falla, toda la red caiga?",
-    "opciones": [
-      "Malla",
-      "Estrella",
-      "Bus",
-      "Anillo"
-    ],
-    "respuesta_correcta": 1
-  },
-  {
-    "pregunta": "¿Cuál es el comando para verificar la conectividad básica enviando paquetes de eco (ICMP)?",
-    "opciones": [
-      "ipconfig",
-      "ping",
-      "getmac",
-      "nslookup"
-    ],
-    "respuesta_correcta": 1
-  }
-];
+    <footer>
+        <p>Alojado en GitHub Pages | Los Full Stack | 2026</p>
+    </footer>
 
-    let quizData = [];
-    let currentIdx = 0;
-    let score = 0;
+    <script>
+        const quizData = [
+            // Sección 1: Historia y Evolución
+            { q: "¿En qué año se originó ARPANET, la red precursora de Internet?", opts: ["1983", "1969", "1991", "2000"], ans: 1, exp: "ARPANET inició en 1969 como una red distribuida del Departamento de Defensa de EE. UU." },
+            { q: "¿Qué tecnología clave usaba ARPANET para resistir fallos en la red?", opts: ["Conmutación de circuitos", "Conmutación de paquetes", "Cables coaxiales", "Satélites"], ans: 1, exp: "Fue diseñada para resistir fallos mediante la conmutación de paquetes, lo que creaba rutas redundantes." },
+            { q: "¿Qué suceso marcó el nacimiento del Internet moderno en 1983?", opts: ["La invención de la Web", "La adopción del protocolo TCP/IP", "El primer cable transatlántico", "La creación de la fibra óptica"], ans: 1, exp: "En 1983 se unificaron las redes adoptando el protocolo TCP/IP, conectando redes diferentes." },
+            { q: "¿Quién inventó la World Wide Web (WWW) y en qué año?", opts: ["Vint Cerf en 1983", "Tim Berners-Lee en 1991", "Bill Gates en 1995", "Steve Jobs en 1984"], ans: 1, exp: "Tim Berners-Lee inventó la WWW en 1991, creando tecnologías como HTTP y HTML." },
+            { q: "¿Qué caracteriza a la Web 2.0 en comparación con la Web 1.0?", opts: ["Es solo de lectura", "No usa HTML", "Los usuarios crean contenido y usan redes sociales", "Solo funciona en móviles"], ans: 2, exp: "La Web 2.0 permitió el paso de una web de 'solo lectura' a una donde los usuarios interactúan y crean contenido." },
+            { q: "¿Qué modelo de nube ofrece software directamente a través de internet (ej. Google Docs)?", opts: ["SaaS", "PaaS", "IaaS", "HaaS"], ans: 0, exp: "SaaS significa Software as a Service (Software como Servicio)." },
+            { q: "¿Qué modelo de nube proporciona infraestructura básica como servidores y almacenamiento virtual?", opts: ["SaaS", "PaaS", "IaaS", "BaaS"], ans: 2, exp: "IaaS (Infraestructura como Servicio) ofrece recursos de hardware virtualizados." },
+            
+            // Sección 1: Topologías
+            { q: "¿Qué tipo de red cubre un área personal de pocos metros, como una conexión Bluetooth?", opts: ["LAN", "MAN", "WAN", "PAN"], ans: 3, exp: "PAN significa Personal Area Network y abarca el entorno inmediato del usuario." },
+            { q: "¿Qué tipo de red se usa típicamente para conectar dispositivos dentro de un mismo edificio?", opts: ["LAN", "WAN", "SAN", "PAN"], ans: 0, exp: "LAN (Local Area Network) es la red de área local, usada en hogares y oficinas." },
+            { q: "¿Qué tipo de red abarca un país entero o el mundo, siendo Internet el mayor ejemplo?", opts: ["MAN", "LAN", "WAN", "SAN"], ans: 2, exp: "WAN (Wide Area Network) es la red de área amplia." },
+            { q: "¿Qué tipo de red es exclusiva para el almacenamiento de datos?", opts: ["MAN", "SAN", "VLAN", "WLAN"], ans: 1, exp: "SAN significa Storage Area Network, dedicada exclusivamente al almacenamiento." },
+            { q: "¿Qué topología física utiliza un único cable central al que se conectan todos los nodos (ya obsoleta)?", opts: ["Anillo", "Estrella", "Malla", "Bus"], ans: 3, exp: "La topología de Bus usa un cable central o 'troncal'. Si este falla, toda la red cae." },
+            { q: "¿En qué topología todos los equipos se conectan a un dispositivo central, como un Switch?", opts: ["Malla", "Árbol", "Estrella", "Bus"], ans: 2, exp: "En la topología de Estrella, el tráfico fluye a través del nodo central." },
+            { q: "¿Qué topología es la más robusta y se utiliza en Internet debido a sus rutas redundantes?", opts: ["Anillo", "Estrella", "Árbol", "Malla"], ans: 3, exp: "La Malla asegura que si un enlace falla, existan caminos alternativos para llegar al destino." },
+            
+            // Sección 2: Estándares IEEE
+            { q: "¿Qué estándar del IEEE rige las redes cableadas (Ethernet)?", opts: ["IEEE 802.11", "IEEE 802.3", "IEEE 802.15", "IEEE 802.1Q"], ans: 1, exp: "El proyecto 802.3 define los estándares para Ethernet por cable." },
+            { q: "¿Para qué se trenzan los cables de cobre (UTP, STP) en las redes Ethernet?", opts: ["Para hacerlos más flexibles", "Para mitigar las interferencias electromagnéticas", "Para que pesen menos", "Para que conduzcan mejor la electricidad"], ans: 1, exp: "El trenzado cancela las interferencias electromagnéticas (crosstalk) entre los propios cables y externas." },
+            { q: "¿Cuántos pines tiene un conector RJ-45 estándar?", opts: ["4 pines", "6 pines", "8 pines", "10 pines"], ans: 2, exp: "El conector RJ-45, utilizado para redes Ethernet, posee 8 pines de conexión." },
+            { q: "¿Cuál es la norma de colores más común actualmente para armar un cable de red?", opts: ["T568A", "T568B", "RJ11", "Cat6"], ans: 1, exp: "Aunque existen T568A y T568B, la norma B es el estándar comercial de facto." },
+            { q: "¿Qué tipo de cable necesitas para conectar directamente dos computadoras (PC a PC)?", opts: ["Cable Directo", "Cable Coaxial", "Cable de Fibra", "Cable Cruzado"], ans: 3, exp: "Para equipos IGUALES (PC a PC, Switch a Switch) se usa Cable Cruzado para cruzar los pines de transmisión y recepción." },
+            { q: "¿Qué tipo de cable necesitas para conectar una computadora a un Switch?", opts: ["Cable Cruzado", "Cable Directo", "Cable Consola", "Cable Serial"], ans: 1, exp: "Para equipos DISTINTOS (PC a Switch) se usa el Cable Directo." },
+            { q: "¿Qué estándar del IEEE rige las redes inalámbricas (Wi-Fi)?", opts: ["802.3", "802.11", "802.15", "802.1Q"], ans: 1, exp: "El estándar IEEE 802.11 define las especificaciones para las redes WLAN (Wi-Fi)." },
+            { q: "¿Qué banda de frecuencia Wi-Fi ofrece mayor alcance pero menor velocidad?", opts: ["5 GHz", "6 GHz", "2.4 GHz", "Todos tienen el mismo alcance"], ans: 2, exp: "La banda de 2.4 GHz penetra mejor las paredes, dándole mayor alcance, pero es más lenta y propensa a interferencias." },
+            { q: "¿Cuál es el protocolo de encriptación más moderno y seguro para redes Wi-Fi mencionado en los apuntes?", opts: ["WEP", "WPA", "WPA2", "WPA3"], ans: 3, exp: "WPA3 es el estándar de seguridad más reciente y robusto para Wi-Fi." },
+            { q: "¿Qué estándar permite crear VLANs (segmentación lógica de una red)?", opts: ["802.1Q", "802.11", "802.3", "802.15"], ans: 0, exp: "IEEE 802.1Q es el estándar que define las Redes de Área Local Virtuales (VLANs)." },
+            
+            // Sección 3: IPs y Equipos
+            { q: "¿Qué mecanismo del router traduce las direcciones IP privadas de tu casa a una IP pública en Internet?", opts: ["DHCP", "DNS", "NAT", "ARP"], ans: 2, exp: "NAT (Network Address Translation) traduce las IPs para ahorrar direcciones IPv4 y dar seguridad." },
+            { q: "¿Qué protocolo asigna direcciones IP automáticamente a los dispositivos que se conectan a la red?", opts: ["DNS", "DHCP", "FTP", "HTTP"], ans: 1, exp: "DHCP (Dynamic Host Configuration Protocol) automatiza la asignación de IPs." },
+            { q: "¿Cuáles son los 4 pasos del ciclo de asignación DHCP?", opts: ["Discover, Offer, Request, Acknowledge", "Send, Receive, Accept, Deny", "Ping, Pong, Sync, Ack", "Start, Process, End, Repeat"], ans: 0, exp: "El ciclo DORA: Discover (descubre servidor), Offer (servidor ofrece), Request (cliente solicita), Acknowledge (servidor confirma)." },
+            { q: "¿Para qué tipo de dispositivos se suele reservar una IP estática (fija)?", opts: ["Celulares de invitados", "Servidores e impresoras", "Laptops", "Smart TVs"], ans: 1, exp: "Los servidores e impresoras necesitan mantener siempre la misma IP para que los demás equipos puedan encontrarlos fácilmente." },
+            { q: "¿Qué protocolo se encarga de traducir nombres de dominio (como google.com) a direcciones IP numéricas?", opts: ["DHCP", "NAT", "HTTP", "DNS"], ans: 3, exp: "DNS (Domain Name System) actúa como el directorio telefónico de Internet." },
+            { q: "¿Qué dispositivo de red convierte la señal análoga del proveedor de internet (ISP) a señal digital?", opts: ["Switch", "Router", "Hub", "Módem"], ans: 3, exp: "El Módem modula y demodula la señal que viene de la calle para que sea entendible por los equipos digitales." },
+            { q: "¿Qué dispositivo tiene la función principal de conectar redes diferentes (ej. tu LAN con la WAN de Internet)?", opts: ["Switch", "Router", "Hub", "Access Point"], ans: 1, exp: "El Router enruta el tráfico entre diferentes subredes y es la puerta de enlace hacia Internet." },
+            { q: "¿Qué dispositivo interconecta equipos en la misma red LAN enviando los datos SOLO al destinatario usando direcciones MAC?", opts: ["Hub", "Switch", "Router", "Módem"], ans: 1, exp: "El Switch es inteligente: aprende las direcciones MAC de los equipos y envía los datos solo por el puerto necesario." },
+            { q: "¿Por qué el 'Hub' se considera obsoleto?", opts: ["Porque es muy caro", "Porque solo usa Wi-Fi", "Porque replica la señal a todos los puertos generando colisiones", "Porque no usa cables"], ans: 2, exp: "El Hub es 'tonto'; si recibe un dato por un puerto, lo envía a todos los demás, saturando la red y causando colisiones." },
+            { q: "¿Qué comando utilizas en la consola para ver la dirección IP de tu computadora?", opts: ["ping", "tracert", "ipconfig", "netstat"], ans: 2, exp: "El comando 'ipconfig' (en Windows) muestra la configuración de red actual, incluyendo tu IP." },
+            { q: "¿Qué comando sirve para comprobar la conectividad básica enviando paquetes a otro equipo y esperando respuesta?", opts: ["tracert", "ping", "arp", "ipconfig"], ans: 1, exp: "El comando 'ping' comprueba si un host remoto está encendido y accesible." },
+            { q: "¿Qué comando te permite ver los 'saltos' (routers por los que pasa la información) para llegar a un destino?", opts: ["tracert", "netstat", "arp", "ping"], ans: 0, exp: "El comando 'tracert' (Trace Route) rastrea la ruta que siguen los paquetes." },
+            
+            // Sección 4: Modelos OSI y TCP/IP
+            { q: "¿Cuántas capas tiene el modelo teórico OSI?", opts: ["4 capas", "5 capas", "7 capas", "9 capas"], ans: 2, exp: "El Modelo OSI es un marco teórico que divide la comunicación de red en 7 capas." },
+            { q: "¿En qué capa del modelo OSI se maneja el enrutamiento de paquetes IP y operan los Routers?", opts: ["Capa 2 (Enlace)", "Capa 3 (Red)", "Capa 4 (Transporte)", "Capa 7 (Aplicación)"], ans: 1, exp: "La Capa 3 (Red) se encarga de buscar la mejor ruta para enviar paquetes usando direcciones lógicas (IP)." },
+            { q: "¿En qué capa del modelo OSI operan los Switches y se utilizan las direcciones MAC?", opts: ["Capa 1 (Física)", "Capa 2 (Enlace de Datos)", "Capa 3 (Red)", "Capa 4 (Transporte)"], ans: 1, exp: "La Capa 2 construye Tramas (Frames) y utiliza direcciones físicas (MAC) para la comunicación dentro de la misma LAN." },
+            { q: "¿Qué protocolos principales operan en la Capa 4 (Transporte) del modelo OSI?", opts: ["HTTP y FTP", "IPv4 e IPv6", "TCP y UDP", "Ethernet y Wi-Fi"], ans: 2, exp: "La Capa de Transporte usa TCP (para entrega confiable) y UDP (para entrega rápida sin confirmación)." },
+            { q: "¿Cuántas capas tiene el modelo TCP/IP (el que realmente se usa en Internet)?", opts: ["4 capas", "5 capas", "7 capas", "3 capas"], ans: 0, exp: "TCP/IP condensa las 7 capas de OSI en 4 capas funcionales (Aplicación, Transporte, Internet, Acceso a Red)." },
+            { q: "¿Qué proceso describe cómo los datos bajan por las capas añadiendo cabeceras antes de ser transmitidos?", opts: ["Desencapsulamiento", "Encriptación", "Encapsulamiento", "Multiplexación"], ans: 2, exp: "El Encapsulamiento es el proceso donde cada capa añade su propia información de control (cabecera) a los datos originales." }
+        ];
 
-    function startQuiz() {
-        document.getElementById('start-screen').classList.add('hidden');
-        document.getElementById('quiz-screen').classList.remove('hidden');
-        
-        // Aleatorizar y sacar 10 preguntas
-        quizData = [...rawDatabase].sort(() => Math.random() - 0.5).slice(0, 10);
-        document.getElementById('total-qs').innerText = quizData.length;
-        renderQuestion();
-    }
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let answered = false;
 
-    function renderQuestion() {
-        const q = quizData[currentIdx];
-        document.getElementById('current-idx').innerText = currentIdx + 1;
-        document.getElementById('question-text').innerText = q.pregunta;
-        document.getElementById('next-btn').classList.add('hidden');
-        
-        const container = document.getElementById('options-container');
-        container.innerHTML = '';
+        const questionText = document.getElementById("question-text");
+        const optionsContainer = document.getElementById("options-container");
+        const explanationBox = document.getElementById("explanation-box");
+        const explanationText = document.getElementById("explanation-text");
+        const nextBtn = document.getElementById("next-btn");
+        const progressText = document.getElementById("quiz-progress");
+        const scoreDisplay = document.getElementById("score-display");
+        const quizContainer = document.getElementById("quiz-container");
+        const finalScoreSection = document.getElementById("final-score");
+        const finalScoreText = document.getElementById("final-score-text");
 
-        q.opciones.forEach((opt, i) => {
-            const btn = document.createElement('button');
-            btn.className = "option-btn w-full text-left p-4 border-2 border-slate-200 rounded-xl hover:border-blue-500 hover:bg-blue-50 transition font-medium";
-            btn.innerText = opt;
-            btn.onclick = () => checkAnswer(i, q.correcta, btn);
-            container.appendChild(btn);
+        function loadQuestion() {
+            answered = false;
+            explanationBox.style.display = "none";
+            nextBtn.disabled = true;
+            
+            const currentQ = quizData[currentQuestionIndex];
+            progressText.innerText = `Pregunta ${currentQuestionIndex + 1} de ${quizData.length}`;
+            questionText.innerText = currentQ.q;
+            
+            optionsContainer.innerHTML = "";
+            
+            currentQ.opts.forEach((option, index) => {
+                const button = document.createElement("button");
+                button.className = "option-btn";
+                button.innerText = option;
+                button.onclick = () => checkAnswer(index, button);
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selectedIndex, buttonClicked) {
+            if (answered) return; 
+            answered = true;
+            
+            const currentQ = quizData[currentQuestionIndex];
+            const allButtons = optionsContainer.querySelectorAll(".option-btn");
+            
+            // Deshabilitar todos los botones
+            allButtons.forEach(btn => btn.disabled = true);
+            
+            if (selectedIndex === currentQ.ans) {
+                buttonClicked.classList.add("correct");
+                score++;
+            } else {
+                buttonClicked.classList.add("incorrect");
+                allButtons[currentQ.ans].classList.add("correct"); // Mostrar la correcta
+            }
+            
+            scoreDisplay.innerText = `Puntaje: ${score}`;
+            explanationText.innerText = currentQ.exp;
+            explanationBox.style.display = "block";
+            
+            if (currentQuestionIndex === quizData.length - 1) {
+                nextBtn.innerText = "Ver Resultados Finales";
+            }
+            nextBtn.disabled = false;
+        }
+
+        nextBtn.addEventListener("click", () => {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < quizData.length) {
+                loadQuestion();
+            } else {
+                showFinalResults();
+            }
         });
-    }
 
-    function checkAnswer(selected, correct, btn) {
-        const buttons = document.querySelectorAll('.option-btn');
-        buttons.forEach(b => b.disabled = true);
-
-        if(selected === correct) {
-            btn.classList.add('correct');
-            score++;
-        } else {
-            btn.classList.add('wrong');
-            buttons[correct].classList.add('correct');
+        function showFinalResults() {
+            quizContainer.style.display = "none";
+            finalScoreSection.style.display = "block";
+            
+            const percentage = Math.round((score / quizData.length) * 100);
+            let message = "";
+            
+            if (percentage >= 90) message = "¡Impecable! Eres un maestro de las Redes.";
+            else if (percentage >= 70) message = "¡Muy buen trabajo! Tienes las bases sólidas.";
+            else if (percentage >= 50) message = "Aprobado, pero te recomiendo darle un repaso a los apuntes.";
+            else message = "Necesitas repasar la teoría. ¡No te rindas y vuelve a intentarlo!";
+            
+            finalScoreText.innerHTML = `Obtuviste ${score} de ${quizData.length} aciertos (${percentage}%).<br><br>${message}`;
         }
-        document.getElementById('next-btn').classList.remove('hidden');
-    }
 
-    function nextQuestion() {
-        currentIdx++;
-        if(currentIdx < quizData.length) {
-            renderQuestion();
-        } else {
-            showResults();
-        }
-    }
-
-    function showResults() {
-        document.getElementById('quiz-screen').classList.add('hidden');
-        const screen = document.getElementById('result-screen');
-        screen.classList.remove('hidden');
-        
-        const finalPuntaje = (score / quizData.length) * 20;
-        document.getElementById('final-score').innerText = finalPuntaje.toFixed(1) + " / 20";
-        
-        let msg = finalPuntaje >= 18 ? "¡Excelente! Estás listo para el 20." : "Sigue estudiando, te falta dominar algunos puntos.";
-        document.getElementById('feedback-msg').innerText = msg;
-    }
-</script>
+        // Iniciar Quiz
+        loadQuestion();
+    </script>
 </body>
 </html>
