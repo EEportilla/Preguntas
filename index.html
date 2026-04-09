@@ -44,12 +44,307 @@
     /* IMPORTANTE: Reemplaza este array con el JSON que te dé la IA.
     */
     const rawDatabase = [
-        {
-            pregunta: "¿Qué componente se encarga de gestionar los recursos del sistema?",
-            opciones: ["Memoria RAM", "Sistema Operativo", "Disco Duro", "Bus de datos"],
-            correcta: 1
-        }
-    ];
+  {
+    "pregunta": "¿Qué hito técnico marcó el nacimiento oficial del Internet moderno el 1 de enero de 1983?",
+    "opciones": [
+      "El primer mensaje en ARPANET",
+      "La migración masiva de NCP a TCP/IP",
+      "La creación de la World Wide Web",
+      "El lanzamiento del navegador Mosaic"
+    ],
+    "respuesta_correcta": 1
+  },
+  {
+    "pregunta": "¿Qué ventaja principal ofrece la conmutación de paquetes sobre la de circuitos?",
+    "opciones": [
+      "Garantiza un ancho de banda dedicado",
+      "Evita el uso de routers",
+      "Rutas redundantes y resistencia ante fallos",
+      "Es exclusiva de la telefonía analógica"
+    ],
+    "respuesta_correcta": 2
+  },
+  {
+    "pregunta": "En el modelo jerárquico de diseño de red, ¿cuál es la función de la Capa de Acceso?",
+    "opciones": [
+      "Enrutamiento entre VLANs",
+      "Conexión directa de usuarios finales y Port Security",
+      "Backup masivo de datos",
+      "Backbone de alta velocidad"
+    ],
+    "respuesta_correcta": 1
+  },
+  {
+    "pregunta": "¿Qué estándar de la IEEE define las redes locales cableadas (Ethernet)?",
+    "opciones": [
+      "IEEE 802.11",
+      "IEEE 802.15",
+      "IEEE 802.3",
+      "IEEE 802.16"
+    ],
+    "respuesta_correcta": 2
+  },
+  {
+    "pregunta": "¿Cuál es la función del trenzado en los cables UTP?",
+    "opciones": [
+      "Aumentar la resistencia mecánica del cable",
+      "Permitir mayor voltaje para PoE",
+      "Mitigar el efecto de diafonía o Crosstalk",
+      "Facilitar el proceso de crimpado"
+    ],
+    "respuesta_correcta": 2
+  },
+  {
+    "pregunta": "¿Qué pines se utilizan para la transmisión y recepción de datos en 10/100Base-T?",
+    "opciones": [
+      "1, 2, 4 y 5",
+      "1, 2, 3 y 6",
+      "4, 5, 7 y 8",
+      "Todos los 8 pines"
+    ],
+    "respuesta_correcta": 1
+  },
+  {
+    "pregunta": "¿Qué norma TIA/EIA-568 comienza con el par Blanco-Naranja / Naranja?",
+    "opciones": [
+      "T568A",
+      "T568B",
+      "IEEE 802.3",
+      "ISO 9001"
+    ],
+    "respuesta_correcta": 1
+  },
+  {
+    "pregunta": "¿Cuál es el propósito del mecanismo NAT en un router?",
+    "opciones": [
+      "Asignar nombres de dominio a las IPs",
+      "Convertir señales analógicas en digitales",
+      "Permitir que IPs privadas salgan a Internet usando una IP Pública",
+      "Cifrar el tráfico de la red local"
+    ],
+    "respuesta_correcta": 2
+  },
+  {
+    "pregunta": "En el modelo OSI, ¿qué capa se encarga de la compresión y encriptación de datos?",
+    "opciones": [
+      "Capa 7: Aplicación",
+      "Capa 6: Presentación",
+      "Capa 5: Sesión",
+      "Capa 4: Transporte"
+    ],
+    "respuesta_correcta": 1
+  },
+  {
+    "pregunta": "¿Cómo se denomina la unidad de datos (PDU) en la Capa 2 (Enlace de Datos)?",
+    "opciones": [
+      "Bit",
+      "Paquete",
+      "Trama (Frame)",
+      "Segmento"
+    ],
+    "respuesta_correcta": 2
+  },
+  {
+    "pregunta": "¿Cuál es la frecuencia que ofrece mayor velocidad pero tiene menor alcance y penetración?",
+    "opciones": [
+      "2.4 GHz",
+      "5 GHz",
+      "Bluetooth",
+      "GSM"
+    ],
+    "respuesta_correcta": 1
+  },
+  {
+    "pregunta": "¿Qué comando de Windows se utiliza para ver la ruta y saltos hacia un host de destino?",
+    "opciones": [
+      "ping",
+      "ipconfig",
+      "tracert",
+      "netstat"
+    ],
+    "respuesta_correcta": 2
+  },
+  {
+    "pregunta": "En el proceso DHCP, ¿qué significa la letra 'O' en el ciclo DORA?",
+    "opciones": [
+      "Open",
+      "Offer (Oferta de IP)",
+      "Object",
+      "Output"
+    ],
+    "respuesta_correcta": 1
+  },
+  {
+    "pregunta": "¿Qué tipo de red conecta dispositivos en un área reducida como un edificio o campus?",
+    "opciones": [
+      "PAN",
+      "LAN",
+      "MAN",
+      "WAN"
+    ],
+    "respuesta_correcta": 1
+  },
+  {
+    "pregunta": "¿Qué componente de la dirección IPv4 define qué parte pertenece a la red y cuál al host?",
+    "opciones": [
+      "La dirección MAC",
+      "El Gateway",
+      "La Máscara de Subred",
+      "El servidor DNS"
+    ],
+    "respuesta_correcta": 2
+  },
+  {
+    "pregunta": "¿Qué estándar Wi-Fi introdujo MIMO y opera en ambas bandas (2.4 y 5 GHz)?",
+    "opciones": [
+      "802.11b",
+      "802.11g",
+      "802.11n (Wi-Fi 4)",
+      "802.11a"
+    ],
+    "respuesta_correcta": 2
+  },
+  {
+    "pregunta": "¿Cuál es la función del protocolo ARP?",
+    "opciones": [
+      "Traducir nombres de dominio a IP",
+      "Traducir direcciones IP a direcciones MAC",
+      "Asignar IPs automáticamente",
+      "Controlar la congestión de red"
+    ],
+    "respuesta_correcta": 1
+  },
+  {
+    "pregunta": "En el modelo TCP/IP, ¿qué capa agrupa las funciones de Aplicación, Presentación y Sesión de OSI?",
+    "opciones": [
+      "Capa de Internet",
+      "Capa de Transporte",
+      "Capa de Aplicación",
+      "Capa de Acceso a Red"
+    ],
+    "respuesta_correcta": 2
+  },
+  {
+    "pregunta": "¿Qué tecnología permite segmentar lógicamente una red física única?",
+    "opciones": [
+      "DHCP",
+      "VLAN",
+      "DNS",
+      "NAT"
+    ],
+    "respuesta_correcta": 1
+  },
+  {
+    "pregunta": "¿Cuál es la latencia objetivo de la tecnología 5G para aplicaciones críticas?",
+    "opciones": [
+      "100 ms",
+      "< 1 ms",
+      "10 ms",
+      "50 ms"
+    ],
+    "respuesta_correcta": 1
+  },
+  {
+    "pregunta": "¿Qué dispositivo de red opera exclusivamente en la Capa 2 del modelo OSI?",
+    "opciones": [
+      "Router",
+      "Repetidor",
+      "Switch",
+      "Hub"
+    ],
+    "respuesta_correcta": 2
+  },
+  {
+    "pregunta": "¿Qué tipo de cable se debe usar para conectar un Switch con otro Switch (puertos normales)?",
+    "opciones": [
+      "Cable Directo",
+      "Cable Cruzado",
+      "Cable Coaxial",
+      "Fibra Monomodo"
+    ],
+    "respuesta_correcta": 1
+  },
+  {
+    "pregunta": "¿Qué servicio traduce 'google.com' en la IP '142.250.190.46'?",
+    "opciones": [
+      "DHCP",
+      "DNS",
+      "HTTP",
+      "FTP"
+    ],
+    "respuesta_correcta": 1
+  },
+  {
+    "pregunta": "¿Qué memoria del switch almacena la configuración activa (running-config) y la tabla MAC?",
+    "opciones": [
+      "ROM",
+      "NVRAM",
+      "RAM/DRAM",
+      "Flash"
+    ],
+    "respuesta_correcta": 2
+  },
+  {
+    "pregunta": "¿Cuál es la longitud máxima permitida para un enlace de cable UTP sin repetidores?",
+    "opciones": [
+      "50 metros",
+      "100 metros",
+      "185 metros",
+      "500 metros"
+    ],
+    "respuesta_correcta": 1
+  },
+  {
+    "pregunta": "¿Qué modo de conmutación lee todo el frame y verifica errores (CRC) antes de enviarlo?",
+    "opciones": [
+      "Cut-Through",
+      "Store-and-Forward",
+      "Broadcast",
+      "Fast-Forwarding"
+    ],
+    "respuesta_correcta": 1
+  },
+  {
+    "pregunta": "¿Qué característica de seguridad inalámbrica es la más robusta actualmente?",
+    "opciones": [
+      "WEP",
+      "WPA2",
+      "WPA3",
+      "SSID Oculto"
+    ],
+    "respuesta_correcta": 2
+  },
+  {
+    "pregunta": "¿Qué protocolo se utiliza para el transporte rápido de datos sin garantía de entrega (streaming)?",
+    "opciones": [
+      "TCP",
+      "UDP",
+      "IP",
+      "ICMP"
+    ],
+    "respuesta_correcta": 1
+  },
+  {
+    "pregunta": "¿Qué topología física permite que si el nodo central falla, toda la red caiga?",
+    "opciones": [
+      "Malla",
+      "Estrella",
+      "Bus",
+      "Anillo"
+    ],
+    "respuesta_correcta": 1
+  },
+  {
+    "pregunta": "¿Cuál es el comando para verificar la conectividad básica enviando paquetes de eco (ICMP)?",
+    "opciones": [
+      "ipconfig",
+      "ping",
+      "getmac",
+      "nslookup"
+    ],
+    "respuesta_correcta": 1
+  }
+];
 
     let quizData = [];
     let currentIdx = 0;
